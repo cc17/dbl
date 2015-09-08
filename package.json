@@ -1,0 +1,38 @@
+{
+  "name": "dbl",
+  "version": "0.0.4",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "ascii-banner": "0.0.2",
+    "commander": "^2.7.1",
+    "connect": "^3.4.0",
+    "css-loader": "^0.17.0",
+    "directory": "^0.1.0",
+    "directory-copy": "^0.1.0",
+    "extract-text-webpack-plugin": "^0.8.2",
+    "gulp": "^3.9.0",
+    "gulp-htmlmin": "^1.1.3",
+    "gulp-replace": "^0.5.4",
+    "gulp-util": "^3.0.6",
+    "html-webpack-plugin": "^1.6.1",
+    "jsx-loader": "^0.13.2",
+    "less": "^2.5.1",
+    "less-loader": "^2.2.0",
+    "lodash": "^3.10.1",
+    "serve-favicon": "^2.3.0",
+    "serve-static": "^1.10.0",
+    "style-loader": "^0.12.3",
+    "webpack": "^1.12.1",
+    "webpack-dev-middleware": "^1.2.0"
+  },
+  "devDependencies": {},
+  "bin": {
+    "dbl": "./bin/dbl"
+  }
+}

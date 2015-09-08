@@ -1,0 +1,23 @@
+#!/usr/bin/env node
+
+var program = require('commander');
+
+
+program
+  .version(require('../package').version )
+  .usage('[options] <keywords>') 
+  .option('-p, --port [port]', 'set port') 
+  .parse(process.argv);
+
+
+// start parse process.argv
+if(!program.args.length){
+  program.help();
+}else{
+  var command = program.args;
+  if(['init','server','deploy'].indexOf(command[0]) > -1){
+    require('../command/' + command[0])(program);
+  }else{
+    console.log('commond not exist');
+  }
+}

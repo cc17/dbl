@@ -1,0 +1,25 @@
+node_modules
+dist
+reports
+.tmp
+.svn
+.grunt
+.sass-cache
+app/bower_components
+.DS_Store
+*.iml
+*.ipr
+*.iws
+*.xml
+.idea/
+
+# Windows image file caches
+Thumbs.db
+ehthumbs.db
+
+# Folder config file
+Desktop.ini
+
+# Recycle Bin used on file shares
+$RECYCLE.BIN/
+

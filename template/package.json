@@ -1,0 +1,25 @@
+{
+  "name": "dbl-project",
+  "version": "0.0.0",
+  "description": "",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "css-loader": "^0.17.0",
+    "extract-text-webpack-plugin": "^0.8.2",
+    "html-webpack-plugin": "^1.6.1",
+    "jsx-loader": "^0.13.2",
+    "less": "^2.5.1",
+    "less-loader": "^2.2.0",
+    "lodash": "^3.10.1",
+    "style-loader": "^0.12.3",
+    "webpack": "^1.12.1"
+  },
+  "devDependencies": {},
+  "bin": {
+    
+  }
+}
