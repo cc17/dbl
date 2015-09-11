@@ -1,5 +1,5 @@
-module.exports = function(program){
-
+module.exports = function (program) {
+  var async = require('async');
   var connect = require('connect');
   var favicon = require('serve-favicon');
   var _static = require('serve-static');
@@ -8,62 +8,95 @@ module.exports = function(program){
   var path = require('path');
   var resolve = path.resolve;
   var fs = require('fs');
+  var _ = require('underscore');
   // path
-  var server_path = resolve( process.cwd() + '/src/');
-
-  var server = connect();
+  var server_path = resolve(process.cwd() + '/src/');
 
 
-  var env = process.env.NODE_ENV;
-  var debug = !env || env === 'development';
-  
-  // handle favicon.ico
-  server.use('/favicon.ico',function(req,res){
-    res.end('');
-  });
+  var options = _.extend({
+    port:8000,
+    lazyLoadTime:3000,
+    database:'mock2easy',
+    doc:'doc',
+    keepAlive:true,
+    isSpider:false,
+    ignoreField:[],
+    interfaceSuffix:'.json',
+    preferredLanguage:'en'
+  },require(path.join(process.cwd(), './webpack-dev.config')).mock2easy || {});
 
-if(debug) {
-  var webpackDevConf = require( path.join(process.cwd() ,'./webpack-dev.config') );
-  server.use(webpackDevMiddleware(webpack(webpackDevConf), {
-      contentBase: webpackDevConf.output.path,
-      publicPath: webpackDevConf.output.publicPath,
-      hot: true,
-      // stats: webpackDevConf.devServer.stats
-      stats: {
-          cached: false,
-          colors: true
+  async.parallel([
+    function(callback) {
+
+      var mock2easy = {
+        log: console.log ,
+        error: console.error
       }
-  }));
-}
-  
-  //以上为静态资源目录，除了以上路径，其他都默认为mock数据
-  //处理post
-  server.use(mock);
-  function mock(req,res,next){
-    if(path.extname(req.url) == '.json' ) {
-      fs.readFile(path.join(process.cwd() + '/' + 'tests/data/') + req.url.split('?')[0], function(err,data){
-        if(err != null){
-          res.end(err.toString())
-        }else{
-          res.end(data.toString())
+
+      require('mock2easy')(mock2easy, options,function(app){
+        try{
+          app(mock2easy,options).listen(options.port, function () {
+            mock2easy.log(('mock2easy is starting , please visit : http://localhost:' + options.port).bold.cyan);
+            callback();
+          });
+        }catch (e){
+          mock2easy.error(e);
         }
-    });
-    }else{
-      next();
+      });
+    },
+    function(callback) {
+
+      var server = connect();
+
+      var env = process.env.NODE_ENV;
+      var debug = !env || env === 'development';
+
+      // handle favicon.ico
+      server.use('/favicon.ico', function (req, res) {
+        res.end('');
+      });
+
+      if (debug) {
+        var webpackDevConf = require(path.join(process.cwd(), './webpack-dev.config'));
+        server.use(webpackDevMiddleware(webpack(webpackDevConf), {
+          contentBase: webpackDevConf.output.path,
+          publicPath: webpackDevConf.output.publicPath,
+          hot: true,
+          // stats: webpackDevConf.devServer.stats
+          stats: {
+            cached: false,
+            colors: true
+          }
+        }));
+      }
+
+      //以上为静态资源目录，除了以上路径，其他都默认为mock数据
+      //处理post
+
+      server.use(require(path.resolve('./',options.database,'do')));
+
+      server.use(_static(server_path, {
+        maxage: 0
+      }));
+
+      server.listen(program.port || 3001, function () {
+        callback();
+      });
+
     }
-  };
-  
-
-  // static files
-  server.use(_static(server_path,{
-    maxage: 0
-  }));
-
-
-
-  server.listen(program.port || 3001,function(){
+  ], function(err) { //This is the final callback
     console.log('serer is runing');
   });
 
-  
+
+
+
+
+
+
+
+
+
+
+
 };
