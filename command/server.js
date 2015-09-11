@@ -14,7 +14,7 @@ module.exports = function (program) {
 
 
   var options = _.extend({
-    port:8000,
+    port:1000,
     lazyLoadTime:3000,
     database:'mock2easy',
     doc:'doc',
@@ -28,19 +28,15 @@ module.exports = function (program) {
   async.parallel([
     function(callback) {
 
-      var mock2easy = {
-        log: console.log ,
-        error: console.error
-      }
 
-      require('mock2easy')(mock2easy, options,function(app){
+      require('mock2easy')(options,function(app){
         try{
-          app(mock2easy,options).listen(options.port, function () {
-            mock2easy.log(('mock2easy is starting , please visit : http://localhost:' + options.port).bold.cyan);
+          app.listen(options.port, function () {
+            console.log(('mock2easy is starting , please visit : http://localhost:' + options.port).bold.cyan);
             callback();
           });
         }catch (e){
-          mock2easy.error(e);
+          console.error(e);
         }
       });
     },
