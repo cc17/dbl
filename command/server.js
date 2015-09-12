@@ -13,6 +13,9 @@ module.exports = function (program) {
   var server_path = resolve(process.cwd() + '/src/');
 
 
+  _.templateSettings = {
+    interpolate: /\{\{(.+?)\}\}/g
+  };
   var options = _.extend({
     port:1000,
     lazyLoadTime:3000,
@@ -27,6 +30,15 @@ module.exports = function (program) {
 
   async.parallel([
     function(callback) {
+
+      var data =  fs.readFileSync(__dirname + '/_do.tmp','utf-8');
+
+      var fd = fs.openSync(path.join(process.cwd(), options.database,'do.js'),"w",0644);
+
+      fs.writeSync(fd,_.template(data)({
+        port: options.port,
+        interfaceSuffix: options.interfaceSuffix
+      }),0,'utf8');
 
 
       require('mock2easy')(options,function(app){
@@ -67,7 +79,6 @@ module.exports = function (program) {
       }
 
       //以上为静态资源目录，除了以上路径，其他都默认为mock数据
-      //处理post
 
       server.use(require(path.resolve('./',options.database,'do')));
 
@@ -83,16 +94,5 @@ module.exports = function (program) {
   ], function(err) { //This is the final callback
     console.log('serer is runing');
   });
-
-
-
-
-
-
-
-
-
-
-
 
 };

@@ -1,27 +1,20 @@
-module.exports = function(program){
+module.exports = function (program) {
   var copy = require('directory-copy');
   var path = require('path');
+  var fs = require('fs');
   var child_process = require('child_process');
-  copy(
-    { 
-      src: path.join(__dirname ,'../template'), 
-      dest: process.cwd()
-      //excludes: [ /^\./ ] // Exclude hidden files 
-    }
-  , function () {
+  var path = require('path');
+  var _ = require('underscore');
+
+  copy({
+    src: path.join(__dirname, '../template'),
+    dest: process.cwd()
+  }, function () {
+
     console.log('Project initialization success!Please run "npm install" or "cnpm install" if you have install cnpm.')
-    // console.log('++++++++++++++++start install npm module++++++++++++++++');
-    // child_process.exec('npm install',function(error){
-    //   if(error){
-    //     console.log(error);
-    //   }else{
-    //     console.log();
-    //   }
-    // });
-  })
-  .on('log', function (msg, level) {
+  }).on('log', function (msg, level) {
     // Level is debug, info, warn or error 
     console.log(level + ': ' + msg)
   })
-  
+
 };
