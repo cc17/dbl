@@ -1,7 +1,8 @@
 
 # dbl
 
-  Simple 5 minute command-line file / directory server built with connect, inspired by nodejitsu's [http-server](https://github.com/nodejitsu/http-server) to show off the simplicity and flexibility of connect as a modular server.
+  Generate basic webpack configs for project.And,create a local server with connect,so you can mock data for you xhr.
+  When you run dbl deploy,it will build project to build directory.Then you can push it to the git repo.
 
 ## Installation
 

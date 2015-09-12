@@ -40,6 +40,10 @@ function makeConf(options) {
             hotUpdateChunkFilename: debug ?'[id].[chunkhash:8].js' : 'scripts/[id].[chunkhash:8].min.js',
             publicPath: debug ? '/__build/' : ''
         },
+        externals:{
+            'jQuery':'window.jQuery',
+            '$':'window.Zepto',
+        },
 
         resolve: {
             root: [srcDir, './node_modules'],
@@ -75,7 +79,7 @@ function makeConf(options) {
 
         plugins: [
             new CommonsChunkPlugin({
-                name: 'vendors',
+                name: 'common',
                 chunks: chunks,
                 // Modules must be shared between all entries
                 minChunks: chunks.length // 提取所有chunks共同依赖的模块
@@ -100,8 +104,13 @@ function makeConf(options) {
             test: /\.scss$/,
             loader: 'style!css!sass'
         };
+        var lessLoader = {
+            test: /\.less/,
+            loader: 'style!css!less'
+        };
         config.module.loaders.push(cssLoader);
         config.module.loaders.push(sassLoader);
+        config.module.loaders.push(lessLoader);
     } else {
 
         // 编译阶段，css分离出来单独引入
@@ -109,12 +118,20 @@ function makeConf(options) {
             test: /\.css$/,
             loader: ExtractTextPlugin.extract('style', 'css?minimize') // enable minimize
         };
-        // var sassLoader = {
-        //     test: /\.scss$/,
-        //     loader: ExtractTextPlugin.extract('style', 'css?minimize', 'sass')
-        // };
+        /****
+        注意啊，这里一定要用！写第二个参数ExtractTextPlugin.extract('style', 'css!less')，网上很多教程都是错误的
+        ****/
+        var lessLoader = {
+            test: /\.less$/,
+            loader: ExtractTextPlugin.extract('style', 'css!less')
+        };
+        var sassLoader = {
+            test: /\.scss$/,
+            loader: ExtractTextPlugin.extract('style', 'css!sass')
+        };
 
         config.module.loaders.push(cssLoader);
+        config.module.loaders.push(lessLoader);
         //config.module.loaders.push(sassLoader);
         config.plugins.push(
             new ExtractTextPlugin('css/[name].css', {
@@ -146,7 +163,7 @@ function makeConf(options) {
 
                 if(m[1] in config.entry) {
                     conf.inject = 'body';
-                    conf.chunks = ['vendors', m[1]];
+                    conf.chunks = ['common', m[1]];
                 }
 
                 config.plugins.push(new HtmlWebpackPlugin(conf));
