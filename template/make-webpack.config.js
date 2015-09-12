@@ -54,7 +54,6 @@ function makeConf(options) {
         resolveLoader: {
             root: path.join(__dirname, 'node_modules')
         },
-
         module: {
             noParse: ['zepto'],
             loaders: [

@@ -8,6 +8,8 @@ program
   //.version(require('../version')())
   .usage('[options] <keywords>') 
   .option('-p, --port [port]', 'set port') 
+  .option('-m, --mockPort [mockPort]', 'set listen mock port') 
+  .option('-s, --interfaceSuffix [interfaceSuffix]', 'set interfaceSuffix') 
   .parse(process.argv);
 
 
@@ -17,6 +19,8 @@ if(!program.args.length){
 }else{
   var command = program.args;
   if(['init','server','deploy'].indexOf(command[0]) > -1){
+    program.mockPort = program.mockPort || 8001;
+    program.interfaceSuffix = program.interfaceSuffix || '.json';
     require('../command/' + command[0])(program);
   }else{
     console.log('commond not exist');

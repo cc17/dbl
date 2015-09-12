@@ -8,22 +8,20 @@ module.exports = function (program) {
   var path = require('path');
   var resolve = path.resolve;
   var fs = require('fs');
-  var _ = require('underscore');
   // path
   var server_path = resolve(process.cwd() + '/src/');
 
-
-  var options = _.extend({
-    port:1000,
+  var options = {
+    port: program.mockPort ,
     lazyLoadTime:3000,
     database:'mock2easy',
     doc:'doc',
     keepAlive:true,
     isSpider:false,
     ignoreField:[],
-    interfaceSuffix:'.json',
+    interfaceSuffix: program.interfaceSuffix,
     preferredLanguage:'en'
-  },require(path.join(process.cwd(), './webpack-dev.config')).mock2easy || {});
+  };
 
   async.parallel([
     function(callback) {
@@ -64,13 +62,15 @@ module.exports = function (program) {
         }));
       }
 
+      
+      server.use( require(path.resolve(__dirname,'../mock2easy/do'))(program)  );
+      
       //以上为静态资源目录，除了以上路径，其他都默认为mock数据
-
-      server.use(require(path.resolve(__dirname,'../mock2easy/do')));
-
       server.use(_static(server_path, {
         maxage: 0
       }));
+
+      
 
       server.listen(program.port || 3001, function () {
         callback();
@@ -80,16 +80,5 @@ module.exports = function (program) {
   ], function(err) { //This is the final callback
     console.log('serer is runing');
   });
-
-
-
-
-
-
-
-
-
-
-
 
 };

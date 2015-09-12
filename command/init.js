@@ -1,6 +1,7 @@
-module.exports = function(program){
+module.exports = function (program) {
   var copy = require('directory-copy');
   var path = require('path');
+  var fs = require('fs');
   var child_process = require('child_process');
   var chalk = require('chalk');
   copy(
@@ -21,8 +22,8 @@ module.exports = function(program){
     // });
   })
   .on('log', function (msg, level) {
-    // Level is debug, info, warn or error 
-    console.log(level + ': ' + msg)
-  })
-  
+   // Level is debug, info, warn or error 
+   console.log(level + ': ' + msg)
+ })
+
 };
