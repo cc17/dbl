@@ -1,7 +1,8 @@
 module.exports = function(){
-  var art = require('ascii-art');  
-  console.log('s');
-  art.font('Prompt', 'Basic', 'red').font('v1', 'Doom', 'magenta', function(rendered){
-    console.log(rendered);
+  var art = require('ascii-art'); 
+  var chalk = require('chalk'); 
+  console.log( art.font('Demo!', 'Doom') );
+  art.font('Demo!', 'Doom', function(rendered){
+    console.log(art.style(rendered, 'blue_bg+red+blink+inverse'));
   });
 };

@@ -27,8 +27,6 @@ module.exports = function (program) {
 
   async.parallel([
     function(callback) {
-
-
       require('mock2easy')(options,function(app){
         try{
           app.listen(options.port, function () {
@@ -67,9 +65,8 @@ module.exports = function (program) {
       }
 
       //以上为静态资源目录，除了以上路径，其他都默认为mock数据
-      //处理post
 
-      server.use(require(path.resolve('./',options.database,'do')));
+      server.use(require(path.resolve(__dirname,'../mock2easy/do')));
 
       server.use(_static(server_path, {
         maxage: 0
