@@ -51,6 +51,18 @@ function makeConf(options) {
             root: path.join(__dirname, 'node_modules')
         },
 
+        mock2easy:{
+          port: 7070,
+          lazyLoadTime: 3000,
+          database: 'mock2easy',
+          doc: 'doc',
+          keepAlive: true,
+          isSpider: false,
+          ignoreField: [],
+          interfaceSuffix: '.json',
+          preferredLanguage: 'en'
+        },
+
         module: {
             noParse: ['zepto'],
             loaders: [
