@@ -25,7 +25,7 @@ module.exports = function (program) {
 
   async.parallel([
     function(callback) {
-      require('mock2easy')(options,function(app){
+      require('mock2easynew')(options,function(app){
         try{
           app.listen(options.port, function () {
             console.log(('mock2easy is starting , please visit : http://localhost:' + options.port).bold.cyan);

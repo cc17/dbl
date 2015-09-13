@@ -1,6 +1,6 @@
 {
   "name": "dbl",
-  "version": "0.0.6",
+  "version": "0.0.8",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -13,7 +13,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "ascii-banner": "0.0.2",
     "async": "^1.4.2",
     "chalk": "^1.1.1",
     "commander": "^2.7.1",
@@ -32,6 +31,7 @@
     "less-loader": "^2.2.0",
     "lodash": "^3.10.1",
     "mock2easy": "0.0.6",
+    "mock2easynew": "0.0.1",
     "serve-favicon": "^2.3.0",
     "serve-static": "^1.10.0",
     "style-loader": "^0.12.3",
