@@ -36,6 +36,9 @@ Options:
   -p, --port <port>    specify the port [3000]
 ```
 
+Description:After run this command,you can input http://localhost:8001 in the address bar.Surprise,you'll see this mock window:
+![Alt text](https://img.alicdn.com/tps/TB1p.VWKpXXXXcAXXXXXXXXXXXX-1374-595.jpg).
+
 Usage: dbl  deploy [options] [dir]
 
 Description: command will build the project form src to build,and push the build directory to the repo with username and password.
