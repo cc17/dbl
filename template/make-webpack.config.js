@@ -38,7 +38,7 @@ function makeConf(options) {
             filename: debug ? '[name].js' : 'scripts/[name].js',
             chunkFilename: debug ? '[chunkhash:8].chunk.js' : 'scripts/[chunkhash:8].chunk.min.js',
             hotUpdateChunkFilename: debug ?'[id].[chunkhash:8].js' : 'scripts/[id].[chunkhash:8].min.js',
-            publicPath: debug ? '/__build/' : ''
+            publicPath: debug ? '/__build/' : '../'
         },
         externals:{
             'jQuery':'window.jQuery',
@@ -46,7 +46,7 @@ function makeConf(options) {
         },
 
         resolve: {
-            root: [srcDir, './node_modules'],
+            root: [srcDir, path.resolve(process.cwd(),'./node_modules')],
             alias: sourceMap,
             extensions: ['', '.js', '.css', '.scss', '.tpl', '.png', '.jpg']
         },
@@ -59,13 +59,8 @@ function makeConf(options) {
             loaders: [
                 {
                     test: /\.(jpe?g|png|gif|svg)$/i,
-                    loaders: [
-                        'image?{bypassOnDebug: true, progressive:true, \
-                            optimizationLevel: 3, pngquant:{quality: "65-80", speed: 4}}',
-                        // url-loader更好用，小于10KB的图片会自动转成dataUrl，
-                        // 否则则调用file-loader，参数直接传入
-                        'url?limit=10000&name=img/[hash:8].[name].[ext]',
-                    ]
+                    //注意后面的name=xx，这里很重要否则打包后会出现找不到资源的
+                    loader: 'url-loader?limit=2&minetype=image/jpg&name=./images/[name]_[hash].[ext]'
                 },
                 {
                     test: /\.(woff|eot|ttf)$/i,
@@ -97,7 +92,7 @@ function makeConf(options) {
         // 开发阶段，css直接内嵌
         var cssLoader = {
             test: /\.css$/,
-            loader:"style-loader!css-loader?module"
+            loader:"style-loader!css-loader"
         };
         var sassLoader = {
             test: /\.scss$/,
@@ -131,7 +126,7 @@ function makeConf(options) {
 
         config.module.loaders.push(cssLoader);
         config.module.loaders.push(lessLoader);
-        //config.module.loaders.push(sassLoader);
+        config.module.loaders.push(sassLoader);
         config.plugins.push(
             new ExtractTextPlugin('css/[name].css', {
                 // 当allChunks指定为false时，css loader必须指定怎么处理
